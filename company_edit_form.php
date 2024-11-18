@@ -72,11 +72,14 @@ if (!$new) {
     if (empty($companyrecord->usesignature)) {
         $companyrecord->usesignature = false;
     }
-    if (empty($companyrecord->border)) {
-        $companyrecord->border = false;
+    if (empty($companyrecord->uselogo)) {
+        $companyrecord->uselogo = false;
     }
-    if (empty($companyrecord->watermark)) {
-        $companyrecord->watermark = false;
+    if (empty($companyrecord->useborder)) {
+        $companyrecord->useborder = false;
+    }
+    if (empty($companyrecord->usewatermark)) {
+        $companyrecord->usewatermark = false;
     }
     if (empty($companyrecord->showgrade)) {
         $companyrecord->showgrade = false;
