@@ -68,6 +68,19 @@ if (!$new) {
     if ($companyrecord->previousroletemplateid == -1 ) {
         $companyrecord->previousroletemplateid = 'i';
     }
+    // Sanitise some data
+    if (empty($companyrecord->usesignature)) {
+        $companyrecord->usesignature = false;
+    }
+    if (empty($companyrecord->border)) {
+        $companyrecord->border = false;
+    }
+    if (empty($companyrecord->watermark)) {
+        $companyrecord->watermark = false;
+    }
+    if (empty($companyrecord->showgrade)) {
+        $companyrecord->showgrade = false;
+    }
     $companyrecord->templates = array();
     if ($companytemplates = $DB->get_records('company_role_templates_ass', array('companyid' => $companyid), null, 'templateid')) {
         $companyrecord->templates = array_keys($companytemplates);
