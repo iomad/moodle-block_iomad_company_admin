@@ -249,6 +249,7 @@ $string['curusersmatching'] = 'Users matching \'{$a}\'';
 $string['curusers'] = 'Users';
 $string['customcss'] = 'Custom company CSS';
 $string['dashboard'] = 'IOMAD dashboard';
+$string['deletingcompany'] = 'Deleting ({$a})';
 $string['departmentprofileid'] = 'Department profile field';
 $string['departmentprofileid_help'] = 'if you have set up self authentication and you have a menu profile field which users can use on this form and there is a matching company department, then you can use this to allow users to be automatically assigned to that department.';
 $string['custom1'] = 'Custom 1';
