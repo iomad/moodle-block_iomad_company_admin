@@ -44,6 +44,7 @@ $systemcontext = context_system::instance();
 
 // Set the companyid
 $companyid = iomad::get_my_companyid($systemcontext);
+$companycontext =  \core\context\company::instance($companyid);
 
 // Correct the navbar .
 // Set the name for the page.
@@ -54,7 +55,7 @@ $listurl = new moodle_url('/blocks/iomad_company_admin/editusers.php');
 $linkurl = $url;
 
 // Print the page header.
-$PAGE->set_context($systemcontext);
+$PAGE->set_context($companycontext);
 $PAGE->set_url($linkurl);
 $PAGE->set_pagelayout('base');
 $PAGE->set_title($linktext);
@@ -65,7 +66,7 @@ $PAGE->navbar->add($listtext, $listurl);
 
 if ($id == -1) {
     // Creating new user.
-    iomad::require_capability('block/iomad_company_admin:editusers', $systemcontext);
+    iomad::require_capability('block/iomad_company_admin:editusers', $companycontext);
     $user = new stdclass();
     $user->id = -1;
     $user->auth = 'manual';
@@ -73,7 +74,7 @@ if ($id == -1) {
     $user->deleted = 0;
 } else {
     // Editing existing user.
-    iomad::require_capability('block/iomad_company_admin:editusers', $systemcontext);
+    iomad::require_capability('block/iomad_company_admin:editusers', $companycontext);
     if (!$user = $DB->get_record('user', array('id' => $id))) {
         throw new moodle_exception('invaliduserid');
     }
