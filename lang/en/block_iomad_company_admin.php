@@ -550,6 +550,7 @@ $string['nocompanyframeworks'] = 'Unallocated competency frameworks';
 $string['nocompanyselected'] = 'No company is selected. Please make a selection above';
 $string['nocompanytemplates'] = 'Unallocated competency templates';
 $string['nocourses'] = 'There are no courses.';
+$string['noenrolmentcourses'] = 'There are no courses that you can enrol users onto.';
 $string['nogroups'] = 'There are no course groups';
 $string['nodepartments'] = 'There are no departments defined';
 $string['nolicensesleft'] = '0 licenses left to allocate';

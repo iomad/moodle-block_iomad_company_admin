@@ -474,7 +474,10 @@ class current_company_course_user_selector extends company_user_selector_base {
             // Deal with all.
             $companycourses = $this->company->get_menu_courses(true, true);
             unset($companycourses[0]);
-            $coursesql = "AND e.courseid IN (" . join (',', array_keys($companycourses)). ")";
+            $coursesql = " AND 1 = 2";
+            if (!empty($companycourses)) {
+                $coursesql = "AND e.courseid IN (" . join (',', array_keys($companycourses)). ")";
+            }
         } else {
             $coursesql = "AND e.courseid IN (" .  join (',', array_values($this->selectedcourses)) . ")";
         }
@@ -642,8 +645,12 @@ class potential_company_course_user_selector extends company_user_selector_base 
         if (in_array(0, $this->selectedcourses)) {
             $selectedcourses = $this->company->get_menu_courses(true, true);
             unset ($selectedcourses[0]);
-            $coursesql = "e.courseid IN (" . implode(',', array_keys($selectedcourses)) . ") ";
-            $countsql = " HAVING count(ue.enrolid) = " . count($selectedcourses);
+            $countsql = "";
+            $coursesql = " 1 = 2";
+            if (!empty($companycourses)) {
+                $coursesql = "e.courseid IN (" . implode(',', array_keys($selectedcourses)) . ") ";
+                $countsql = " HAVING count(ue.enrolid) = " . count($selectedcourses);
+            }
         } else {
             $selectedcourses = $this->selectedcourses;
             $coursesql = "e.courseid IN (" . implode(',', array_values($selectedcourses)) . ") ";
