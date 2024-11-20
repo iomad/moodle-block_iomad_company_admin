@@ -230,7 +230,7 @@ abstract class company_user_selector_base extends user_selector_base {
         $output .= "</select>\n<div class=\"form-inline\">\n";
         $output .= $profilesearch;
         $output .= '<input type="text" name="' . $this->name . '_searchtext" id="' .
-                $this->name . '_searchtext" size="15" value="' . s($search) . '" class="form-control"/>';
+                $this->name . '_searchtext" size="15" value="' . $search . '" class="form-control"/>';
         $output .= '<input type="submit" name="' . $this->name . '_searchbutton" id="' .
                 $this->name . '_searchbutton" value="' . $this->search_button_caption() . '" class="btn btn-secondary"/>';
         $output .= '<input type="submit" name="' . $this->name . '_clearbutton" id="' .
