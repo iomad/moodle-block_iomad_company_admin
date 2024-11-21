@@ -652,7 +652,10 @@ class company_edit_form extends \company_moodleform {
             }
         }
 
-        if ($foundcompanies = $DB->get_records('company', array('shortname' => $data['shortname']))) {
+        if (!preg_match('/^[a-z0-9_]+$/', $data['shortname'])) {
+            // Check allowed pattern (numbers, letters and underscore).
+            $errors['shortname'] = get_string('invalidshortnameerror', 'core_customfield');
+        } else if ($foundcompanies = $DB->get_records('company', array('shortname' => trim($data['shortname'])))) {
             if (!empty($this->companyid)) {
                 unset($foundcompanies[$this->companyid]);
             }
@@ -666,7 +669,7 @@ class company_edit_form extends \company_moodleform {
                                                   $foundcompanynamestring);
             }
         }
-
+        
         if (!empty($data['code']) &&
             $foundcompanies = $DB->get_records('company', array('code' => $data['code']))) {
             if (!empty($this->companyid)) {

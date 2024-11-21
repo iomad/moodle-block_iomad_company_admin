@@ -116,6 +116,12 @@ class department_edit_form extends company_moodleform {
                 $errors['shortname'] = get_string('departmentnameinuse', 'block_iomad_company_admin');
             }
         }
+
+        if (!preg_match('/^[a-z0-9_]+$/', trim($data['shortname']))) {
+            // Check allowed pattern (numbers, letters and underscore).
+            $errors['shortname'] = get_string('invalidshortnameerror', 'core_customfield');
+        }
+
         return $errors;
     }
 }
