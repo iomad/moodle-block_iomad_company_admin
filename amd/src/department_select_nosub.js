@@ -23,7 +23,7 @@ define(['jquery', 'core/tree'], function($, Tree) {
                     $("select[name=" + selectname + "]" + " option[value=" + id + "]").prop("selected", true);
                     $(".tree_dept_name").css({"font-weight":"normal"});
                     $(this).css({"font-weight":"bold"});
-                    
+
                 }
             });
         }
