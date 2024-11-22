@@ -211,13 +211,19 @@ class company_edit_form extends \company_moodleform {
         $mform->setType('companydomains', PARAM_NOTAGS);
         $mform->addHelpButton('companydomains', 'companydomains', 'block_iomad_company_admin');
 
-        $mform->addElement('text', 'maxusers', get_string('companymaxusers', 'block_iomad_company_admin'));
-        $mform->setType('maxusers', PARAM_INT);
-        $mform->addHelpButton('maxusers', 'companymaxusers', 'block_iomad_company_admin');
+        // Max users is restricted.
+        if (iomad::has_capability('block/iomad_company_admin:company_edit_restricted', $this->context)) {
+            $mform->addElement('text', 'maxusers', get_string('companymaxusers', 'block_iomad_company_admin'));
+            $mform->addHelpButton('maxusers', 'companymaxusers', 'block_iomad_company_admin');
 
-        $mform->addElement('text', 'hostname', get_string('companyhostname', 'block_iomad_company_admin'));
+            $mform->addElement('text', 'hostname', get_string('companyhostname', 'block_iomad_company_admin'));
+            $mform->addHelpButton('hostname', 'companyhostname', 'block_iomad_company_admin');
+        } else {
+            $mform->addElement('hidden', 'maxusers');
+            $mform->addElement('hidden', 'hostname');
+        }
+        $mform->setType('maxusers', PARAM_INT);
         $mform->setType('hostname', PARAM_NOTAGS);
-        $mform->addHelpButton('hostname', 'companyhostname', 'block_iomad_company_admin');
 
         // Add in the company role template selector.
         $templates = \company::get_role_templates($this->companyid);
@@ -282,11 +288,19 @@ class company_edit_form extends \company_moodleform {
             $mform->addElement('hidden', 'paymentaccount');
         }
 
-        $mform->addElement('date_time_selector', 'validto', get_string('companyvalidto', 'block_iomad_company_admin'), array('optional' => true));
-        $mform->addElement('duration', 'suspendafter', get_string('companyterminateafter', 'block_iomad_company_admin'));
-        $mform->addHelpButton('validto', 'companyvalidto', 'block_iomad_company_admin');
-        $mform->addHelpButton('suspendafter', 'companyterminateafter', 'block_iomad_company_admin');
-        $mform->disabledIF('suspendafter', 'validto[enabled]', 'notchecked');
+        // Valid to and suspend after are restricted.
+        if (iomad::has_capability('block/iomad_company_admin:company_edit_restricted', $this->context) && false) {
+            $mform->addElement('date_time_selector', 'validto', get_string('companyvalidto', 'block_iomad_company_admin'), array('optional' => true));
+            $mform->addElement('duration', 'suspendafter', get_string('companyterminateafter', 'block_iomad_company_admin'));
+            $mform->addHelpButton('validto', 'companyvalidto', 'block_iomad_company_admin');
+            $mform->addHelpButton('suspendafter', 'companyterminateafter', 'block_iomad_company_admin');
+            $mform->disabledIF('suspendafter', 'validto[enabled]', 'notchecked');
+        } else {
+            $mform->addElement('hidden', 'validto');
+            $mform->addElement('hidden', 'suspendafter');
+            $mform->setType('validto', PARAM_INT);
+            $mform->setType('suspendafter', PARAM_INT);
+        }
 
         $mform->setType('parentid', PARAM_INT);
         $mform->setType('ecommerce', PARAM_INT);
