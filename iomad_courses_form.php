@@ -47,6 +47,9 @@ $hideid = optional_param('hideid', 0, PARAM_INT);
 $showid = optional_param('showid', 0, PARAM_INT);
 $confirm = optional_param('confirm', null, PARAM_ALPHANUM);
 $edit = optional_param('edit', -1, PARAM_BOOL);
+$delegateid = optional_param('delegateid', 0, PARAM_INT);
+$cloneid = optional_param('cloneid', 0, PARAM_INT);
+$action = optional_param('action', '', PARAM_ALPHA);
 
 $params = array();
 
@@ -203,6 +206,7 @@ if (!empty($deleteid)) {
         die;
     }
 }
+
 // Hide/show courses.
 if(!empty($hideid) && iomad::has_capability('block/iomad_company_admin:managecourses', $companycontext)) {    
     if (!$course = $DB->get_record('course', array('id' => $hideid))) {
@@ -222,6 +226,65 @@ if(!empty($showid) && iomad::has_capability('block/iomad_company_admin:managecou
         $record = get_course($showid);
         $course = new core_course_list_element($record);
         course_change_visibility($course->id, true);
+    }
+}
+
+// Delegate/remove courses.
+if(!empty($delegateid) && iomad::has_capability('block/iomad_company_admin:delegatecourse', $companycontext)) {    
+    if (!$course = $DB->get_record('course', ['id' => $delegateid])) {
+        throw new moodle_exception('invalidcourse');
+    }
+    if (confirm_sesskey() && $action == 'add') {
+        $company->add_course($course, 0, true);
+    } else if (confirm_sesskey() && $action == 'remove') {
+        $company->remove_control_of_course($delegateid);
+    } 
+}
+if(!empty($showid) && iomad::has_capability('block/iomad_company_admin:managecourses', $companycontext)) {
+    if (!$course = $DB->get_record('course', ['id' => $showid])) {
+        throw new moodle_exception('invalidcourse');
+    } 
+    if (confirm_sesskey()) {
+        $record = get_course($showid);
+        $course = new core_course_list_element($record);
+        course_change_visibility($course->id, true);
+    }
+}
+
+// Clone courses.
+if(!empty($cloneid) && iomad::has_capability('block/iomad_company_admin:createcourse', $companycontext)) {    
+    if ((!$clonecourse = $DB->get_record('course', ['id' => $cloneid])) ||
+         ! $DB->get_record('company_created_courses', ['companyid' => $companyid, 'courseid' => $cloneid])) {
+        throw new moodle_exception('invalidcourse');
+    }
+    if (!$clonecourse = $DB->get_record('course', ['id' => $cloneid])) { // ||
+//        ! $DB->get_record('company_created_courses', ['companyid' => $companyid, 'courseid' => $cloneid])) {
+        throw new moodle_exception('invalidcourse');
+    }
+
+    // Create the course clone form.
+    $cloneparams=$params;
+    $cloneparams['cloneid'] = $cloneid;
+    $cloneurl = new moodle_url('/blocks/iomad_company_admin/iomad_courses_form.php', $cloneparams);
+    $cloneform = new block_iomad_company_admin\forms\course_copy_form($cloneurl, ['course' => $clonecourse]);
+
+    // Do we do the actual work?
+    if ($clonedata = $cloneform->get_data()) {
+        // Process the form and create the copy task.
+        $copydata = \copy_helper::process_formdata($clonedata);
+        \copy_helper::create_copy($copydata);
+        redirect($linkurl, get_string('successfulcopy', 'backup'), null, \core\output\notification::NOTIFY_SUCCESS);
+    } else if ($cloneform->is_cancelled()) {
+        redirect($linkurl);
+    } else {
+        $title = get_string('copycoursetitle', 'backup', $clonecourse->shortname);
+
+        // Display the form.
+        echo $OUTPUT->header();
+        echo $OUTPUT->heading($title);
+        $cloneform->display();
+        echo $OUTPUT->footer();
+        die;
     }
 }
 
