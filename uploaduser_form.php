@@ -292,6 +292,9 @@ class admin_uploaduser_form2 extends company_moodleform {
             }
         }
 
+        $mform->addElement('date_time_selector', 'due', get_string('senddate', 'block_iomad_company_admin'));
+        $mform->addHelpButton('due', 'senddate', 'block_iomad_company_admin');
+
         $this->add_action_buttons(true, get_string('uploadusers', 'tool_uploaduser'));
     }
 

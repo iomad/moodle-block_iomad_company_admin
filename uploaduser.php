@@ -37,6 +37,13 @@ $uploadtype  = optional_param('uutype', 0, PARAM_INT);
 $licenseid = optional_param('licenseid', 0, PARAM_INT);
 $userdepartment = optional_param('userdepartment', 0, PARAM_INT);
 $cancelled = optional_param('cancel', null, PARAM_CLEAN);
+$due         = optional_param_array('due', [], PARAM_INT);
+
+if (!empty($due)) {
+    $duedate = strtotime($due['year'] . '-' . $due['month'] . '-' . $due['day'] . ' ' . $due['hour'] . ':' . $due['minute']);
+} else {
+    $duedate = 0;
+}
 
 if (!empty($licenseid)) {
     $SESSION->chosenlicenseid = $licenseid;
@@ -943,6 +950,9 @@ if (!empty($cancelled)) {
                 } else {
                     $user->preference_auth_forcepasswordchange = false;
                 }
+
+                // Create the user and send the email.
+                $user->due = $duedate;
                 $user->id = company_user::create($user, $companyid);
 
                 // Save the profile information.
@@ -991,7 +1001,7 @@ if (!empty($cancelled)) {
 
                     company_user::enrol($user, [$ccache[$shortname]->id], $companyid , $roleid);
                     $coursecontext = context_course::instance($ccache[$shortname]->id);
-                    EmailTemplate::send('user_added_to_course', ['course' => $ccache[$shortname], 'user' => $user]);
+                    EmailTemplate::send('user_added_to_course', ['course' => $ccache[$shortname], 'user' => $user, 'due' => $duedate]);
 
                     // find group to add to
                     if (!empty($user->{'group'.$i})) {
@@ -1054,12 +1064,15 @@ if (!empty($cancelled)) {
                     // add the user to the courses selected in the upload form.
                     $courseids = array();
                     foreach ($formdata->selectedcourses as $selectedcourse) {
-                        $courseids[] = $selectedcourse->id;
+                        if (is_object($selectedcourse)) {
+                            $selectedcourse = $selectedcourse->id;
+                        }
+                        $courseids[] = $selectedcourse;
                     }
                     company_user::enrol($user, $courseids, $companyid);
                     foreach ($courseids as $courseid) {
                         $emailcourse = $DB->get_record('course', ['id' => $courseid]);
-                        EmailTemplate::send('user_added_to_course', ['course' => $emailcourse, 'user' => $user]);
+                        EmailTemplate::send('user_added_to_course', ['course' => $emailcourse, 'user' => $user, 'due' => $duedate]);
                     }
                 }
                 if (preg_match('/^department\d+$/', $column)) {
@@ -1114,7 +1127,7 @@ if (!empty($cancelled)) {
                 company_user::enrol($user, array_values($formdata->selectedcourses) );
                 foreach (array_values($formdata->selectedcourses) as $courseid) {
                     $emailcourse = $DB->get_record('course', ['id' => $courseid]);
-                    EmailTemplate::send('user_added_to_course', ['course' => $emailcourse, 'user' => $user]);
+                    EmailTemplate::send('user_added_to_course', ['course' => $emailcourse, 'user' => $user, 'due' => $duedate]);
                 }
             }
 
