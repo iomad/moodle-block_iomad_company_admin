@@ -2850,4 +2850,75 @@ class block_iomad_company_admin_external extends external_api {
         ]);
     }
 
+    /**
+     * Returns description of method parameters.
+     *
+     * @return external_function_parameters
+     * @since Moodle 2.2
+     */
+    public static function get_user_companies_parameters() {
+        return new external_function_parameters(
+            array(
+                'userid' => new external_value(PARAM_INT, 'User ID.'),
+            )
+        );
+    }
+
+    /**
+     * Return user company info (given user ID)
+     *
+     * @param int $licenseid
+     */
+    public static function get_user_companies($userid) {
+        global $CFG, $DB;
+
+        $params = self::validate_parameters(self::get_user_companies_parameters(), [
+            'userid' => $userid,
+        ]);
+
+        // Security.
+        $context = context_system::instance();
+        iomad::require_capability('block/iomad_company_admin:company_view_all', $context);
+
+        // Get user
+        $user = $DB->get_record('user', ['id' => $params['userid']], '*', MUST_EXIST);
+
+        // Get all of the companies the users is in.
+        $usercompanies = $DB->get_records_sql("SELECT DISTINCT c.id,c.name FROM {company} c
+                                               JOIN {company_users} cu ON (cu.companyid = c.id)
+                                               WHERE cu.userid = :userid",
+                                               ['userid' => $user->id]);
+
+        foreach ($usercompanies as $company) {
+            $companydepartments = $DB->get_records_sql("SELECT d.id, d.name FROM {department} d
+                                                        JOIN {company_users} cu ON (d.id = cu.departmentid AND d.company = cu.companyid)
+                                                        WHERE d.company = :companyid
+                                                        AND cu.userid = :userid",
+                                                       ['companyid' => $company->id,
+                                                        'userid' => $user->id]);
+            $usercompanies[$comany->id]->departments = $companydepartments; 
+        }
+        return ['companies' => $usercompanies];
+    }
+
+    /**
+     * Returns description for get_user_companies
+     * @return external_description
+     */
+    public static function get_user_companies_returns() {
+        return new external_single_structure([
+            'companies' => new external_multiple_structure(
+                new external_single_structure([
+                    'id' => new external_value(PARAM_INT, 'Company ID'),
+                    'name' => new external_value(PARAM_TEXT, 'Company name'),
+                    'departments' => new external_multiple_structure(
+                        new external_single_structure([
+                            'id' => new external_value(PARAM_INT, 'Department ID'),
+                            'name' => new external_value(PARAM_TEXT, 'Department name'),
+                        ]),
+                    ),
+                ]),
+            ),
+        ]);
+    }
 }
