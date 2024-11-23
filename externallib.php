@@ -1922,11 +1922,11 @@ class block_iomad_company_admin_external extends external_api {
 
         foreach ($params['licenses'] as $license) {
 
-            $id = $license['id'];
+            $licenseid = $license['id'];
 
             // does this company exist
-            if (!$oldlicense = $DB->get_record('companylicense', array('id' => $id))) {
-                throw new invalid_parameter_exception("License id=$id does not exist");
+            if (!$oldlicense = $DB->get_record('companylicense', array('id' => $licenseid))) {
+                throw new invalid_parameter_exception("License id=$licenseid does not exist");
             }
 
 
@@ -2051,14 +2051,14 @@ class block_iomad_company_admin_external extends external_api {
 
         foreach ($params['licenses'] as $license) {
 
-            $id = $license['id'];
+            $licenseid = $license['id'];
 
             // does this license exist
-            if (!$oldlicense = $DB->get_record('companylicense', array('id' => $id))) {
-                throw new invalid_parameter_exception("License id=$id does not exist");
+            if (!$oldlicense = $DB->get_record('companylicense', array('id' => $licenseid))) {
+                throw new invalid_parameter_exception("License id=$licenseid does not exist");
             }
 
-            $DB->delete_records('companylicense', array('id' => $id));
+            $DB->delete_records('companylicense', array('id' => $licenseid));
 
             // Create an event to deal with parent license allocations.
             $eventother = array('licenseid' => $oldlicense->id,
