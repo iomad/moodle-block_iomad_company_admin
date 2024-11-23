@@ -759,7 +759,7 @@ class current_user_course_selector extends company_course_selector_base {
                                                  FROM {course} c
                                                  JOIN {enrol} e ON (c.id = e.courseid)
                                                  JOIN {user_enrolments} ue ON (e.id = ue.enrolid)
-                                                 JOIN {local_iomad_track} lit ON (e.courseid = lit.courseid AND c.id = lit.courseid AND ue.userid=lit.userid AND ue.timecreated = lit.timeenrolled)
+                                                 JOIN {local_iomad_track} lit ON (e.courseid = lit.courseid AND c.id = lit.courseid AND ue.userid=lit.userid AND ue.timestart = lit.timeenrolled)
                                                  WHERE lit.userid = :userid
                                                  AND lit.companyid = :companyid",
                                                 ['userid' => $this->user->id ,
@@ -861,7 +861,7 @@ class potential_user_course_selector extends company_course_selector_base {
                                                 FROM {course} c
                                                 JOIN {enrol} e ON (c.id = e.courseid)
                                                 JOIN {user_enrolments} ue ON (e.id = ue.enrolid)
-                                                JOIN {local_iomad_track} lit ON (e.courseid = lit.courseid AND c.id = lit.courseid AND ue.userid=lit.userid AND ue.timecreated = lit.timeenrolled)
+                                                JOIN {local_iomad_track} lit ON (e.courseid = lit.courseid AND c.id = lit.courseid AND ue.userid=lit.userid AND ue.timestart = lit.timeenrolled)
                                                 WHERE lit.userid = :userid
                                                 AND lit.companyid = :companyid
                                                 AND lit.coursecleared = 0",

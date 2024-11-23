@@ -504,7 +504,7 @@ class current_company_course_user_selector extends company_user_selector_base {
                  JOIN {user_enrolments} ue ON (ue.userid = u.id)
                  JOIN {enrol} e ON (ue.enrolid = e.id AND ".$DB->sql_compare_text('e.enrol')."='manual' AND e.status = 0)
                  JOIN {course} c ON (e.courseid = c.id)
-                 JOIN {local_iomad_track} lit ON (c.id = lit.courseid AND e.courseid = lit.courseid AND cu.userid = lit.userid AND ue.userid = lit.userid AND cu.companyid = lit.companyid AND ue.timecreated = lit.timeenrolled)
+                 JOIN {local_iomad_track} lit ON (c.id = lit.courseid AND e.courseid = lit.courseid AND cu.userid = lit.userid AND ue.userid = lit.userid AND cu.companyid = lit.companyid AND ue.timestart = lit.timeenrolled)
 
                  WHERE $wherecondition AND u.suspended = 0
                  AND cu.companyid = :companyid
@@ -661,7 +661,7 @@ class potential_company_course_user_selector extends company_user_selector_base 
         } else {
             $usersql = "SELECT ue.userid,count(ue.enrolid) AS enrolcount FROM {user_enrolments} ue
                         JOIN {enrol} e ON (ue.enrolid = e.id AND ".$DB->sql_compare_text('e.enrol')."='manual' AND e.status = 0)
-                        JOIN {local_iomad_track} lit ON (e.courseid = lit.courseid AND ue.userid=lit.userid AND ue.timecreated = lit.timeenrolled)
+                        JOIN {local_iomad_track} lit ON (e.courseid = lit.courseid AND ue.userid=lit.userid AND ue.timestart = lit.timeenrolled)
                         WHERE $coursesql
                         AND lit.companyid = :companyid
                         GROUP BY ue.userid
