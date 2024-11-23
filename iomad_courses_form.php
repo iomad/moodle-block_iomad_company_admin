@@ -177,7 +177,7 @@ if (!empty($deleteid)) {
         if (iomad::has_capability('block/iomad_company_admin:destroycourses', $companycontext)) {
             $message = get_string('deleteanddestroycoursesfull', 'block_iomad_company_admin', $course->fullname);
         } else {
-            $message = get_string('deleteacoursesfull', 'block_iomad_company_admin', $course->fullname);
+            $message = get_string('deletecoursesfull', 'block_iomad_company_admin', $course->fullname);
         }
         $confirmhtml = $OUTPUT->box_start('generalbox modal modal-dialog modal-in-page show', 'notice', $attributes);
         $confirmhtml .= $OUTPUT->box_start('modal-content', 'modal-content');
