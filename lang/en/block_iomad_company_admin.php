@@ -392,6 +392,7 @@ $string['iomad_company_admin:edit_groups'] = 'Edit company course groups';
 $string['iomad_company_admin:edit_licenses'] = 'Edit company licenses';
 $string['iomad_company_admin:edit_my_licenses'] = 'Edit my company licenses';
 $string['iomad_company_admin:editmanagers'] = 'Edit company managers in own company';
+$string['iomad_company_admin:editpubliclocation'] = 'Change if a teaching location is open to all companies';
 $string['iomad_company_admin:editusers'] = 'Edit users in own company';
 $string['iomad_company_admin:edituserpassword'] = 'Resend password details to users in own company';
 $string['iomad_company_admin:export_departments'] = 'Export company departments to a file';
