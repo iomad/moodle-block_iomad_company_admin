@@ -646,8 +646,8 @@ if (!empty($cancelled)) {
                     } else if ($updatetype == 2 or $updatetype == 3) {
                         $allowed = array_merge($stdfields, $prffields);
                     }
+                    $temppasswordhandler = '';
                     foreach ($allowed as $column) {
-                        $temppasswordhandler = '';
                         if ($column == 'username') {
                             continue;
                         }
