@@ -812,13 +812,6 @@ if (!empty($cancelled)) {
                         }
                     }
                 }
-
-                if ($bulk == 2 or $bulk == 3) {
-                    if (!in_array($user->id, $SESSION->bulk_users)) {
-                        $SESSION->bulk_users[] = $user->id;
-                    }
-                }
-
             } else {
                 // Save the user to the database.
                 $user->confirmed = 1;
@@ -967,6 +960,13 @@ if (!empty($cancelled)) {
                 $upt->track('status', $struseradded);
                 $upt->track('id', $user->id, 'normal', false);
                 $usersnew++;
+            }
+
+            // Do we have anything for bulk user actions?
+            if ($bulk == 2 or $bulk == 3) {
+                if (!in_array($user->id, $SESSION->bulk_users)) {
+                    $SESSION->bulk_users[] = $user->id;
+                }
             }
 
             // Find course enrolments, groups, roles/types and enrol periods.
