@@ -670,10 +670,12 @@ if ($mform->is_cancelled()) {
                                        $data->id,
                                        array('subdirs' => 0, 'maxbytes' => 150 * 1024, 'maxfiles' => 1));
         }
+        // Delete any recorded domains for this company.
+        $DB->delete_records('company_domains', array('companyid' => $companyid));
+
+        // Add any new ones back in.
         if (!empty($data->companydomains)) {
             $domainsarray = preg_split('/[\r\n]+/', $data->companydomains, -1, PREG_SPLIT_NO_EMPTY);
-            // Delete any recorded domains for this company.
-            $DB->delete_records('company_domains', array('companyid' => $companyid));
             foreach ($domainsarray as $domain) {
                 if (!empty($domain)) {
                     $DB->insert_record('company_domains', array('companyid' => $companyid, 'domain' => $domain));
