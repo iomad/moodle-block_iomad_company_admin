@@ -329,14 +329,16 @@ class user_edit_form extends \moodleform {
 
         $usernew = (object)$usernew;
 
-        // Check allowed characters.
-        if (!$usernew->use_email_as_username) {
-            if (empty($usernew->username)) {
-                $errors['username'] = get_string('required');
-            } else if ($usernew->username !== core_text::strtolower($usernew->username)) {
-                $errors['username'] = get_string('usernamelowercase');
-            } else if ($usernew->username !== core_user::clean_field($usernew->username, 'username')) {
-                    $errors['username'] = get_string('invalidusername');
+        // Check allowed characters. - We only care if we are being passed a username.
+        if (!empty($CFG->iomad_allow_username)) {
+            if (!$usernew->use_email_as_username) {
+                if (empty($usernew->username)) {
+                    $errors['username'] = get_string('required');
+                } else if ($usernew->username !== core_text::strtolower($usernew->username)) {
+                    $errors['username'] = get_string('usernamelowercase');
+                } else if ($usernew->username !== core_user::clean_field($usernew->username, 'username')) {
+                        $errors['username'] = get_string('invalidusername');
+                }
             }
         }
 
