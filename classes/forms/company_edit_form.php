@@ -132,8 +132,7 @@ class company_edit_form extends \company_moodleform {
         $mform->setType('region', PARAM_NOTAGS);
 
         $mform->addElement('text', 'postcode',
-                            get_string('postcode', 'block_iomad_company_admin'),
-                            'maxlength="50" size="50"');
+                            get_string('postcode', 'block_iomad_company_admin'), ['size' => 20, 'maxlength' => 20]);
         $mform->setType('postcode', PARAM_NOTAGS);
 
         /* copied from user/editlib.php */
@@ -498,11 +497,11 @@ class company_edit_form extends \company_moodleform {
                                     get_string('customcss', 'block_iomad_company_admin'),
                                     'wrap="virtual" rows="20" cols="75"');
                 $mform->setType('customcss', PARAM_RAW);
-                $mform->addElement('iomad_colourpicker', 'headingcolor', get_string('headingcolor', 'block_iomad_company_admin'), 'size="20"');
+                $mform->addElement('iomad_colourpicker', 'headingcolor', get_string('headingcolor', 'block_iomad_company_admin'), ['size' => 20, 'maxlength' => 20]);
                 $mform->setType('headingcolor', PARAM_CLEAN);
-                $mform->addElement('iomad_colourpicker', 'maincolor', get_string('maincolor', 'block_iomad_company_admin'), 'size="20"');
+                $mform->addElement('iomad_colourpicker', 'maincolor', get_string('maincolor', 'block_iomad_company_admin'), ['size' => 20, 'maxlength' => 20]);
                 $mform->setType('maincolor', PARAM_CLEAN);
-                $mform->addElement('iomad_colourpicker', 'linkcolor', get_string('linkcolor', 'block_iomad_company_admin'), 'size="20"');
+                $mform->addElement('iomad_colourpicker', 'linkcolor', get_string('linkcolor', 'block_iomad_company_admin'), ['size' => 20, 'maxlength' => 20]);
                 $mform->setType('linkcolor', PARAM_CLEAN);
             } else {
                 $mform->addElement('hidden', 'id_companylogo', $this->companyrecord->companylogo);
