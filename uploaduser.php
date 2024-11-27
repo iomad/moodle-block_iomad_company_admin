@@ -1001,7 +1001,8 @@ if (!empty($cancelled)) {
 
                     company_user::enrol($user, [$ccache[$shortname]->id], $companyid , $roleid);
                     $coursecontext = context_course::instance($ccache[$shortname]->id);
-                    EmailTemplate::send('user_added_to_course', ['course' => $ccache[$shortname], 'user' => $user, 'due' => $duedate]);
+                    $courserec = $DB->get_record('course', ['id' => $ccache[$shortname]->id]);
+                    EmailTemplate::send('user_added_to_course', ['course' => $courserec, 'user' => $user, 'due' => $duedate]);
 
                     // find group to add to
                     if (!empty($user->{'group'.$i})) {
