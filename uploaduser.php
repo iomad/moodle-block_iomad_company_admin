@@ -1058,74 +1058,68 @@ if (!empty($cancelled)) {
                             continue;
                         }
                     }
-                }
 
-                if (!empty($formdata->selectedcourses)) {
-                    // add the user to the courses selected in the upload form.
-                    $courseids = array();
-                    foreach ($formdata->selectedcourses as $selectedcourse) {
-                        if (is_object($selectedcourse)) {
-                            $selectedcourse = $selectedcourse->id;
+                    // Do we have a department passed?
+                    if (preg_match('/^department\d+$/', $column)) {
+                        $i = substr($column, 10);
+    
+                        if (empty($user->{'department'.$i})) {
+                            continue;
                         }
-                        $courseids[] = $selectedcourse;
+                        $shortname = $user->{'department'.$i};
+                        if (!$department = $DB->get_record('department', array('company' => $company->id,
+                                                                               'shortname' => $shortname))) {
+                            $upt->track('department'.$i, get_string('invaliddepartment', 'block_iomad_company_admin'), 'error');
+                            $upt->track('status', $strusernotaddederror, 'error');
+                            $line[] = get_string('invaliddepartment', 'block_iomad_company_admin');
+                            $errornum++;
+                            $userserrors++;
+                            $erroredusers[] = $line;
+                            continue;
+                        }
+                        // Make sure the user can manage this department.
+                        if (!company::can_manage_department($department->id)) {
+                            $upt->track('department'.$i, get_string('invaliddepartment', 'block_iomad_company_admin'), 'error');
+                            $upt->track('status', $strusernotaddederror, 'error');
+                            $line[] = get_string('invaliddepartment', 'block_iomad_company_admin');
+                            $errornum++;
+                            $userserrors++;
+                            $erroredusers[] = $line;
+                            continue;
+                        }
+    
+                        // Since we got a valid department, remove the user from any default one.  Typically top-level.
+                        if ($department->id != $defaultdepartmentid &&
+                            !empty($defaultdepartmentid)) {
+    
+                            // Remove the user from the default department.
+                            $DB->delete_records('company_users', array('userid' => $user->id, 'companyid' => $company->id, 'departmentid' => $defaultdepartmentid));
+    
+                            // Only want to do this once.
+                            $defaultdepartmentid = 0;
+                        } else {
+                            // Default is the first we were passed.  No longer required.
+                            $defaultdepartmentid = 0;
+                        }
+    
+                        // Add the user to this department.
+                        $company->assign_user_to_company($user->id, $department->id);
                     }
-                    company_user::enrol($user, $courseids, $companyid);
-                    foreach ($courseids as $courseid) {
-                        $emailcourse = $DB->get_record('course', ['id' => $courseid]);
-                        EmailTemplate::send('user_added_to_course', ['course' => $emailcourse, 'user' => $user, 'due' => $duedate]);
-                    }
-                }
-                if (preg_match('/^department\d+$/', $column)) {
-                    $i = substr($column, 10);
-
-                    if (empty($user->{'department'.$i})) {
-                        continue;
-                    }
-                    $shortname = $user->{'department'.$i};
-                    if (!$department = $DB->get_record('department', array('company' => $company->id,
-                                                                           'shortname' => $shortname))) {
-                        $upt->track('department'.$i, get_string('invaliddepartment', 'block_iomad_company_admin'), 'error');
-                        $upt->track('status', $strusernotaddederror, 'error');
-                        $line[] = get_string('invaliddepartment', 'block_iomad_company_admin');
-                        $errornum++;
-                        $userserrors++;
-                        $erroredusers[] = $line;
-                        continue;
-                    }
-                    // Make sure the user can manage this department.
-                    if (!company::can_manage_department($department->id)) {
-                        $upt->track('department'.$i, get_string('invaliddepartment', 'block_iomad_company_admin'), 'error');
-                        $upt->track('status', $strusernotaddederror, 'error');
-                        $line[] = get_string('invaliddepartment', 'block_iomad_company_admin');
-                        $errornum++;
-                        $userserrors++;
-                        $erroredusers[] = $line;
-                        continue;
-                    }
-
-                    // Since we got a valid department, remove the user from any default one.  Typically top-level.
-                    if ($department->id != $defaultdepartmentid &&
-                        !empty($defaultdepartmentid)) {
-
-                        // Remove the user from the default department.
-                        $DB->delete_records('company_users', array('userid' => $user->id, 'companyid' => $company->id, 'departmentid' => $defaultdepartmentid));
-
-                        // Only want to do this once.
-                        $defaultdepartmentid = 0;
-                    } else {
-                        // Default is the first we were passed.  No longer required.
-                        $defaultdepartmentid = 0;
-                    }
-
-                    // Add the user to this department.
-                    $company->assign_user_to_company($user->id, $department->id);
                 }
             }
 
             // Enrol user into courses that were selected on the form.
-            if (isset($formdata->selectedcourses) ) {
-                company_user::enrol($user, array_values($formdata->selectedcourses) );
-                foreach (array_values($formdata->selectedcourses) as $courseid) {
+            if (!empty($formdata->selectedcourses)) {
+                // add the user to the courses selected in the upload form.
+                $courseids = array();
+                foreach ($formdata->selectedcourses as $selectedcourse) {
+                    if (is_object($selectedcourse)) {
+                        $selectedcourse = $selectedcourse->id;
+                    }
+                    $courseids[] = $selectedcourse;
+                }
+                company_user::enrol($user, $courseids, $companyid);
+                foreach ($courseids as $courseid) {
                     $emailcourse = $DB->get_record('course', ['id' => $courseid]);
                     EmailTemplate::send('user_added_to_course', ['course' => $emailcourse, 'user' => $user, 'due' => $duedate]);
                 }
