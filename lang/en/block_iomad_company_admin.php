@@ -728,6 +728,7 @@ $string['upload_no_company_no_courses'] = 'Courses can only be selected when a c
 $string['upload_no_company_selected'] = 'No company selected, profile_field_company must be present in the uploaded file.';
 $string['usedefaultpayment'] = 'Use default site payment account';
 $string['user_bulk_download_title'] = 'User Bulk Download';
+$string['usercourseexpired'] = 'User course has expired - so reset';
 $string['usercourses'] = 'Enroled courses';
 $string['user_courses_for'] = 'Editing Course allocation for {$a}';
 $string['usercoursetotal'] = '<h3>Total: {$a->total}, Started: {$a->totalstarted}, Completed: {$a->totalcompleted}</h3>';
