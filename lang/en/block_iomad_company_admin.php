@@ -419,6 +419,7 @@ $string['iomad_company_admin:unallocate_licenses'] = 'Unallocate licenses from c
 $string['iomad_company_admin:user_create'] = 'Create a user';
 $string['iomad_company_admin:usermanagement_view'] = 'View the user management tab';
 $string['iomad_company_admin:user_upload'] = 'Upload users';
+$string['iomad_company_admin:view_editusers'] = 'View edit users';
 $string['iomad_company_admin:view_licenses'] = 'View company licenses';
 $string['iomad_company_admin:view_my_company_email'] = 'Unused ';
 $string['iomad_company_admin:view'] = 'View a company';

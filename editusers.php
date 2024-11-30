@@ -103,9 +103,16 @@ if ($showall) {
     $params['showall'] = $showall;
 }
 
+iomad::require_capability('block/iomad_company_admin:view_editusers', $companycontext);
+
 // Deal with edit buttons.
 if ($edit != -1) {
     $USER->editing = $edit;
+}
+
+if (!iomad::has_capability('block/iomad_company_admin:editusers', $companycontext) &&
+    !iomad::has_capability('block/iomad_company_admin:editallusers', $companycontext)) {
+    $USER->editing = false;
 }
 
 // Set the name for the page.
@@ -166,9 +173,8 @@ if ($departmentid == 0) {
     $departmentid = $userhierarchylevel;
 }
 
-if (!(iomad::has_capability('block/iomad_company_admin:editusers', $companycontext)
-    or iomad::has_capability('block/iomad_company_admin:editallusers', $companycontext))) {
-    throw new moodle_exception('nopermissions', 'error', '', 'edit/delete users');
+if (!iomad::has_capability('block/iomad_company_admin:view_editusers', $companycontext)) {
+    throw new moodle_exception('nopermissions', 'error', '', 'view edit users');
 }
 
 // Set up the filter form.
@@ -287,6 +293,10 @@ if ($confirmuser and confirm_sesskey()) {
     }
 
 } else if ($password and confirm_sesskey()) {
+    if (!iomad::has_capability('block/iomad_company_admin:editusers', $companycontext)) {
+        throw new moodle_exception('nopermissions', 'error', '', 'reset a user');
+    }
+
     if (!$user = $DB->get_record('user', array('id' => $password))) {
         throw new moodle_exception('nousers');
     }
@@ -542,8 +552,7 @@ if (iomad::has_capability('block/iomad_company_admin:editallusers', $companycont
         $sqlsearch = " AND 1 = 0";
     }
 
-} else if (iomad::has_capability('block/iomad_company_admin:editusers', $companycontext)) {   // Check if has role edit company users.
-
+} else {
     // Get users company association.
     $departmentusers = company::get_recursive_department_users($departmentid);
     if (count($departmentusers) > 0) {
@@ -563,9 +572,6 @@ if (iomad::has_capability('block/iomad_company_admin:editallusers', $companycont
     } else {
         $sqlsearch = "AND 1 = 0";
     }
-} else {
-    // Can't edit any users.
-    $sqlsearch = " AND 1 = 0";
 }
 
 // return the right type of user.

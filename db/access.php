@@ -762,7 +762,16 @@ $capabilities = array(
             'clientadministrator' => CAP_ALLOW
         ),
     ),
-    
 
+    'block/iomad_company_admin:view_editusers' => array(
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COMPANY,
+        'archetypes' => array(
+            'companymanager' => CAP_ALLOW,
+            'companydepartmentmanager' => CAP_ALLOW,
+            'clientadministrator' => CAP_ALLOW
+        ),
+    ),
 );
 

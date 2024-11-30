@@ -80,7 +80,7 @@ class editusers_table extends table_sql {
         // Only show departments if they are in the current company.
         if ($company->id == $selectedcompanyid) { 
             $userdepartments = array_keys($DB->get_records('company_users', ['companyid' => $company->id, 'userid' => $row->id], '', 'departmentid'));
-            if (empty($USER->editing) || $row->managertype == 1) {
+            if ($row->managertype == 1 || empty($USER->editing)) {
                 $count = count($userdepartments);
                 $current = 1;
                 $returnstr = "";
@@ -106,7 +106,7 @@ class editusers_table extends table_sql {
 
             } else {
                 $editable = new \block_iomad_company_admin\output\user_departments_editable($company,
-                                                              \context_system::instance(),
+                                                              $companycontext,
                                                               $row,
                                                               $userdepartments,
                                                               $this->departments,

@@ -246,6 +246,63 @@ function xmldb_block_iomad_company_admin_upgrade($oldversion) {
         // Iomad savepoint reached.
         upgrade_plugin_savepoint(true, 2023012801, 'block', 'iomad_company_admin');
     }
+ 
+    if ($oldversion < 2024112103) {
+
+        $timestamp = time();
+        $systemcontext = context_system::instance();
+
+        // We need to restrict the view edit users in the same way as the editusers capability is currently.
+        $currentcompanies = $DB->get_records('company_role_restriction', ['capability' => 'block/iomad_company_admin:editusers']);
+        foreach ($currentcompanies as $restriction) {
+            unset($restriction->id);
+            $restriction->capability = 'block/iomad_company_admin:view_editusers';
+            $DB->insert_record('company_role_restriction', $restriction);
+        }
+
+        // Deal with IOMAD roles which should have the cap but don't so we can match.
+        $companymanagerroles = $DB->get_records('role', ['archetype' => 'companymanager']);
+        foreach ($companymanagerroles as $role) {
+            if (!$DB->get_record('role_capabilities', ['roleid' => $role->id, 'capability' => 'block/iomad_company_admin:editusers'])) {
+                $DB->delete_records('role_capabilities', ['roleid' => $role->id, 'capability' => 'block/iomad_company_admin:view_editusers']);
+            } else if ($DB->get_record('role_capabilities', ['roleid' => $role->id, 'capability' => 'block/iomad_company_admin:editusers'])) {
+                $DB->insert_record('role_capabilities', ['roleid' => $role->id,
+                                                         'capability' => 'block/iomad_company_admin:view_editusers',
+                                                         'permission' => 1,
+                                                         'timemodified' => $timestamp,
+                                                         'contextid' => $systemcontext->id]);
+            }
+        }
+
+        $departmentmanagerroles = $DB->get_records('role', ['archetype' => 'companydepartmentmanager']);
+        foreach ($departmentmanagerroles as $role) {
+            if (!$DB->get_record('role_capabilities', ['roleid' => $role->id, 'capability' => 'block/iomad_company_admin:editusers'])) {
+                $DB->delete_records('role_capabilities', ['roleid' => $role->id, 'capability' => 'block/iomad_company_admin:view_editusers']);
+            } else if ($DB->get_record('role_capabilities', ['roleid' => $role->id, 'capability' => 'block/iomad_company_admin:editusers'])) {
+                $DB->insert_record('role_capabilities', ['roleid' => $role->id,
+                                                         'capability' => 'block/iomad_company_admin:view_editusers',
+                                                         'permission' => 1,
+                                                         'timemodified' => $timestamp,
+                                                         'contextid' => $systemcontext->id]);
+            }
+        }
+
+        $clientadministratorroles = $DB->get_records('role', ['archetype' => 'clientadministrator']);
+        foreach ($clientadministratorroles as $role) {
+            if (!$DB->get_record('role_capabilities', ['roleid' => $role->id, 'capability' => 'block/iomad_company_admin:editusers'])) {
+                $DB->delete_records('role_capabilities', ['roleid' => $role->id, 'capability' => 'block/iomad_company_admin:view_editusers']);
+            } else if ($DB->get_record('role_capabilities', ['roleid' => $role->id, 'capability' => 'block/iomad_company_admin:editusers'])) {
+                $DB->insert_record('role_capabilities', ['roleid' => $role->id,
+                                                         'capability' => 'block/iomad_company_admin:view_editusers',
+                                                         'permission' => 1,
+                                                         'timemodified' => $timestamp,
+                                                         'contextid' => $systemcontext->id]);
+            }
+        }
+
+        // Iomad savepoint reached.
+        upgrade_plugin_savepoint(true, 2024112103, 'block', 'iomad_company_admin');
+    }
 
     return true;
 }
