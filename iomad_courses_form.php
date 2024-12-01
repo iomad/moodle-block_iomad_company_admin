@@ -438,7 +438,7 @@ if (iomad::has_capability('block/iomad_company_admin:company_add', $companyconte
     $tablecolumns[] = 'shared';	
 }
 // If not editing, show course visibility. Otherwise use the actions column
-if (empty($USER->editing) || !empty($USER->editing) && !has_capability('moodle/course:visibility',  $systemcontext)){
+if (empty($USER->editing)){
     $tableheaders[] = get_string('coursevisibility');
     $tablecolumns[] = 'coursevisibility';
 }
