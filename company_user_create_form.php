@@ -127,7 +127,14 @@ if ($mform->is_cancelled()) {
     // Enrol the user on the courses.
     if (!empty($data->currentcourses)) {
         $userdata = $DB->get_record('user', array('id' => $userid));
-        company_user::enrol($userdata, $data->currentcourses, $companyid);
+        company_user::enrol($userdata, $data->currentcourses, $companyid, 0, 0, $data->due);
+        foreach ($data->currentcourses as $courseid) {
+            $course = $DB->get_record('course', array('id' => $courseid));
+            EmailTemplate::send('user_added_to_course',
+                                ['course' => $course,
+                                 'user' => $userdata,
+                                 'due' => $data->due]);
+        }
     }
     // Assign and licenses.
     if (!empty($licenseid)) {
