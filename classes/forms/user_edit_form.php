@@ -354,6 +354,18 @@ class user_edit_form extends \moodleform {
             }
         }
 
+        // Validate email as username in the same company.
+        if ($usernew->use_email_as_username) {
+            if ($DB->get_records_sql("SELECT u.id FROM {user} u
+                                      JOIN {company_users} cu ON u.id = cu.userid
+                                      WHERE cu.companyid = :companyid
+                                      AND u.username = :email",
+                                      ['companyid' => $this->company->id,
+                                       'email' => $usernew->email])) {
+                        $errors['email'] = get_string('emailexists');
+            }
+        }
+
         if (!empty($usernew->newpassword)) {
             $errmsg = ''; // Prevent eclipse warning.
             if (!check_password_policy($usernew->newpassword, $errmsg)) {
