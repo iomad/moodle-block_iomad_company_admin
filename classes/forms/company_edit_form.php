@@ -665,7 +665,7 @@ class company_edit_form extends \company_moodleform {
             }
         }
 
-        if (!preg_match('/^[a-z0-9_]+$/', $data['shortname'])) {
+        if (!preg_match('/^[A-Za-z0-9_]+$/', $data['shortname'])) {
             // Check allowed pattern (numbers, letters and underscore).
             $errors['shortname'] = get_string('invalidshortnameerror', 'core_customfield');
         } else if ($foundcompanies = $DB->get_records('company', array('shortname' => trim($data['shortname'])))) {
