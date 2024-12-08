@@ -129,6 +129,8 @@ class company_courses_form extends moodleform {
         // Process incoming assignments.
         if (optional_param('add', false, PARAM_BOOL) && confirm_sesskey()) {
             $coursestoassign = $this->potentialcourses->get_selected_courses();
+            $allroles = $DB->get_records('role', [], '', 'id');
+
             if (!empty($coursestoassign)) {
 
                 $company = new company($this->selectedcompany);
@@ -155,25 +157,9 @@ class company_courses_form extends moodleform {
                             }
                         }
                     } else {
-                        // If company has enrollment then we must have BOTH
-                        // oktounenroll true and the company_course_unenrol capability.
-                        if (!empty($addcourse->has_enrollments)) {
-                            if (iomad::has_capability('block/iomad_company_admin:company_course_unenrol',
-                                                $this->context) and $oktounenroll) {
-                                $this->unenroll_all($addcourse->id);
-                                $company->add_course($addcourse);
-                            }
-                        } else if ($companycourserecord = $DB->get_record('company_course', array('companyid' => $this->selectedcompany,
-                                                                                                  'courseid' => $addcourse->id))) {
-                            $companycourserecord->departmentid = $this->departmentid;
-                            $DB->update_record('company_course', $companycourserecord);
-                        } else {
-                            if ($this->departmentid != $this->companydepartment ) {
-                                $company->add_course($addcourse, $this->departmentid);
-                            } else {
-                                $company->add_course($addcourse, $this->companydepartment);
-                            }
-                        }
+
+                        // Add it.
+                        $company->add_course($addcourse, $this->companydepartment);
                     }
                 }
 
@@ -185,73 +171,26 @@ class company_courses_form extends moodleform {
         // Process incoming unassignments.
         if (optional_param('remove', false, PARAM_BOOL) && confirm_sesskey()) {
             $coursestounassign = $this->currentcourses->get_selected_courses();
+            $didnothing = false;
+
             if (!empty($coursestounassign)) {
 
                 $company = new company($this->selectedcompany);
 
                 foreach ($coursestounassign as $removecourse) {
 
-                    // Check if its a shared course.
-                    if ($DB->get_record_sql("SELECT id FROM {iomad_courses}
-                                             WHERE courseid=:removecourse
-                                             AND shared != 0",
-                                             array('removecourse' => $removecourse->id))) {
-                        $DB->delete_records('company_shared_courses',
-                                             array('companyid' => $company->id,
-                                                   'courseid' => $removecourse->id));
-                        $DB->delete_records('company_course',
-                                             array('companyid' => $company->id,
-                                                   'courseid' => $removecourse->id));
-                        company::delete_company_course_group($company->id,
-                                                             $removecourse,
-                                                             $oktounenroll);
-                    } else {
-                        // If company has enrollment then we must have BOTH
-                        // oktounenroll true and the company_course_unenrol capability.
-                        if (!empty($removecourse->has_enrollments)) {
-                            if (iomad::has_capability('block/iomad_company_admin:company_course_unenrol',
-                                                $this->context) and $oktounenroll) {
-                                $this->unenroll_all($removecourse->id);
-                                if ($this->departmentid != $this->companydepartment) {
-                                    // Dump it into the default company department.
-                                    $company->remove_course($removecourse,
-                                                            $company->id,
-                                                            $this->companydepartment);
-                                } else {
-                                    // Remove it from the company.
-                                    $company->remove_course($removecourse, $company->id);
-                                }
-                            }
-                        } else {
-                            if ($this->departmentid != $this->companydepartment) {
-                                // Move the course to the company default department.
-                                $company->remove_course($removecourse, $company->id,
-                                                        $this->companydepartment);
-                            } else {
-                                $company->remove_course($removecourse, $company->id);
-                            }
+                    // If company has enrollment then we must have BOTH
+                    // oktounenroll true and the company_course_unenrol capability.
+                    if (empty($removecourse->hasenrollments) || $oktounenroll) {
+                        if (iomad::has_capability('block/iomad_company_admin:company_course_unenrol', $this->context)) {
+
+                            // Remove it from the company.
+                            $company->remove_course($removecourse, $company->id);
+                            $this->potentialcourses->invalidate_selected_courses();
+                            $this->currentcourses->invalidate_selected_courses();
                         }
                     }
                 }
-
-                $this->potentialcourses->invalidate_selected_courses();
-                $this->currentcourses->invalidate_selected_courses();
-            }
-        }
-    }
-
-    private function unenroll_all($id) {
-        global $DB, $PAGE;
-        // Unenroll everybody from given course.
-
-        // Get list of enrollments.
-        $course = $DB->get_record('course', array('id' => $id));
-        $courseenrolment = new course_enrolment_manager($PAGE, $course);
-        $userlist = $courseenrolment->get_users('', 'ASC', 0, 0);
-        foreach ($userlist as $user) {
-            $ues = $courseenrolment->get_user_enrolments($user->id);
-            foreach ($ues as $ue) {
-                $courseenrolment->unenrol_user($ue);
             }
         }
     }
