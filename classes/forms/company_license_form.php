@@ -39,6 +39,11 @@ class company_license_form extends \company_moodleform {
     protected $companydepartment = 0;
     protected $parentid = 0;
     protected $free = 0;
+    protected $licenseid;
+    protected $selectedcourses;
+    protected $parentlicense;
+    protected $license;
+    protected $courses;
 
     public function __construct($actionurl,
                                 $companycontext,

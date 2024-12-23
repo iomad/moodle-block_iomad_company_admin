@@ -35,6 +35,12 @@ class department_display_form extends company_moodleform {
     protected $company = null;
     protected $parentlevel = 0;
     protected $notice = '';
+    protected $companycontext;
+    protected $companydepartment;
+    protected $departmentid;
+    protected $output;
+    protected $chosenid;
+    protected $action;
 
     public function __construct($actionurl, $companyid, $departmentid, $output, $chosenid=0, $action=0, $notice='') {
         global $CFG, $USER;

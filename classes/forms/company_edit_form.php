@@ -37,6 +37,12 @@ class company_edit_form extends \company_moodleform {
     protected $description = '';
     protected $companyid;
     protected $companyrecord;
+    protected $parentcompanyid;
+    protected $previousroletemplateid;
+    protected $previousemailtemplateid;
+    protected $child;
+    protected $context;
+    protected $parentcompany;
 
     public function __construct($actionurl, $isadding, $companyid, $companyrecord, $firstcompany = false, $parentcompanyid = 0, $child = false) {
         global $DB, $CFG;

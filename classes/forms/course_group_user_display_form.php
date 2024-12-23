@@ -34,6 +34,8 @@ class course_group_user_display_form extends company_moodleform {
     protected $courseid = 0;
     protected $context = null;
     protected $company = null;
+    protected $companycontext;
+    protected $output;
 
     public function __construct($actionurl, $companyid, $courseid, $output, $chosenid=0, $action=0) {
         global $CFG, $USER;

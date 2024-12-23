@@ -36,6 +36,7 @@ class classroom_edit_form extends moodleform {
     protected $body = '';
     protected $classroomid;
     protected $companyid;
+    protected $editoroptions;
 
     public function __construct($actionurl, $isadding, $companyid, $classroomid, $editoroptions) {
         $this->isadding = $isadding;

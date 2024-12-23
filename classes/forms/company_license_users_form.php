@@ -43,6 +43,10 @@ class company_license_users_form extends \moodleform {
     protected $selectedcourses = array();
     protected $courseselect = array();
     protected $firstcourseid = 0;
+    protected $licenseid;
+    protected $output;
+    protected $error;
+    protected $chosenid;
 
     public function __construct($actionurl, $companycontext, $companyid, $licenseid, $departmentid, $selectedcourses, $error, $output, $chosenid=0) {
         global $USER, $DB;

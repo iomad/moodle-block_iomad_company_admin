@@ -66,6 +66,8 @@ class user_departments_editable extends \core\output\inplace_editable {
      * @param \stdClass[] $profiledepartments The list of departments that should be visible in a users profile.
      * @param \stdClass[] $userdepartments The list of user departments.
      */
+    protected $userdepartments;
+    protected $departments;
     public function __construct($company, $companycontext, $user, $userdepartments, $departments, $assignabledepartments = null) {
         if (empty($assignabledepartments)) {
             debugging('Constructor for user_departments_editable now needs to be passed the departments available to the manager');

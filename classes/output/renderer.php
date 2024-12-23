@@ -193,6 +193,7 @@ class renderer extends plugin_renderer_base {
         return $this->render_from_template('block_iomad_company_admin/roletemplates', $roletemplates->export_for_template($this));
     }
 
+    protected $_elements;
     public function render_datetime_element($name, $id, $timestamp) {
 
         // Get the calendar type used - see MDL-18375.

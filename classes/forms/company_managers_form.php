@@ -35,6 +35,7 @@ class company_managers_form extends moodleform {
     protected $roletype = 0;
     protected $subhierarchieslist = null;
     protected $companydepartment = 0;
+    protected $showothermanagers;
 
     public function __construct($actionurl, $companycontext, $companyid, $deptid, $roleid, $showothermanagers) {
         global $USER;

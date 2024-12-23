@@ -43,6 +43,12 @@ class user_edit_form extends \moodleform {
     protected $licenseid = 0;
     protected $licensecourses = array();
     protected $subhierarchieslist = array();
+    protected $selectedcompany;
+    protected $companycontext;
+    protected $companydepartment;
+    protected $treehtml;
+    protected $userdepartment;
+    protected $companycourses;
 
     public function __construct($actionurl, $companyid, $departmentid, $licenseid=0) {
         global $CFG, $USER, $output, $companycontext;

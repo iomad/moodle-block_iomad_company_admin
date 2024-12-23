@@ -117,6 +117,9 @@ class current_company_course_selector extends company_course_selector_base {
      * @param <type> $search
      * @return array
      */
+    protected $departmentid;
+    protected $licenses;
+    protected $shared;
     public function __construct($name, $options) {
         $this->companyid  = $options['companyid'];
         $this->departmentid = $options['departmentid'];
@@ -407,6 +410,9 @@ class potential_company_course_selector extends company_course_selector_base {
      * @param <type> $search
      * @return array
      */
+    protected $departmentid;
+    protected $shared;
+    protected $partialshared;
     public function __construct($name, $options) {
         $this->companyid  = $options['companyid'];
         $this->departmentid = $options['departmentid'];
@@ -722,6 +728,9 @@ class current_user_course_selector extends company_course_selector_base {
      * @param <type> $search
      * @return array
      */
+    protected $departmentid;
+    protected $user;
+    protected $licenses;
     public function __construct($name, $options) {
         $this->companyid  = $options['companyid'];
         $this->departmentid = $options['departmentid'];
@@ -796,6 +805,9 @@ class potential_user_course_selector extends company_course_selector_base {
      * @param <type> $search
      * @return array
      */
+    protected $user;
+    protected $licenses;
+    protected $shared;
     public function __construct($name, $options) {
         $this->companyid  = $options['companyid'];
         $this->user = $options['user'];
@@ -963,6 +975,10 @@ class current_user_license_course_selector extends company_course_selector_base 
      * @param <type> $search
      * @return array
      */
+    protected $departmentid;
+    protected $user;
+    protected $licenseid;
+    protected $licenses;
     public function __construct($name, $options) {
         $this->companyid  = $options['companyid'];
         $this->departmentid = $options['departmentid'];
@@ -1157,6 +1173,9 @@ class potential_user_license_course_selector extends company_course_selector_bas
      * @param <type> $search
      * @return array
      */
+    protected $user;
+    protected $licenseid;
+    protected $license;
     public function __construct($name, $options) {
         global $CFG, $DB;
 

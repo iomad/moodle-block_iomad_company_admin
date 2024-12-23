@@ -37,6 +37,7 @@ class company_ccu_courses_form extends company_moodleform {
     protected $selectedcourses = 0;
     protected $company = null;
     protected $courses = array();
+    protected $companycourses;
 
 
     public function __construct($actionurl, $context, $companyid, $departmentid, $selectedcourses, $parentlevel) {

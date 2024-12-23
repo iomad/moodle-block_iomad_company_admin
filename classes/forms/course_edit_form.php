@@ -39,6 +39,9 @@ class course_edit_form extends moodleform {
     protected $description = '';
     protected $selectedcompany = 0;
     protected $context = null;
+    protected $editoroptions;
+    protected $companyrec;
+    protected $companycontext;
 
     public function __construct($actionurl, $companyid, $editoroptions) {
         global $CFG, $DB;

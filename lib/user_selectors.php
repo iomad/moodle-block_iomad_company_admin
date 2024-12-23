@@ -770,6 +770,7 @@ class potential_department_user_selector extends company_user_selector_base {
     protected $roletype;
     protected $parentdepartmentid;
     protected $showothermanagers;
+    protected $subdepartments;
 
     public function __construct($name, $options) {
         $this->companyid  = $options['companyid'];
@@ -960,6 +961,7 @@ class current_department_user_selector extends company_user_selector_base {
     protected $companyid;
     protected $departmentid;
     protected $roletype;
+    protected $showothermanagers;
 
     public function __construct($name, $options) {
         $this->companyid  = $options['companyid'];

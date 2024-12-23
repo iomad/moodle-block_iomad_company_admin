@@ -52,6 +52,7 @@ class current_company_templates_selector extends company_template_selector_base 
      * @param <type> $search
      * @return array
      */
+    protected $shared;
     public function __construct($name, $options) {
         $this->companyid  = $options['companyid'];
 
@@ -134,6 +135,8 @@ class potential_company_templates_selector extends company_template_selector_bas
      * @param <type> $search
      * @return array
      */
+    protected $shared;
+    protected $partialshared;
     public function __construct($name, $options) {
         $this->companyid  = $options['companyid'];
 

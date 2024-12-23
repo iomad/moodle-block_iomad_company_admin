@@ -35,6 +35,7 @@ class company_users_form extends moodleform {
     protected $selectedcompany = 0;
     protected $potentialusers = null;
     protected $currentusers = null;
+    protected $allusers;
 
     public function __construct($actionurl, $context, $companyid, $allusers) {
         $this->selectedcompany = $companyid;

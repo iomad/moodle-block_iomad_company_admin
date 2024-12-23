@@ -404,6 +404,10 @@ class editusers_table extends table_sql {
                                     get_string('createuser', 'block_iomad_company_admin'));
     }
 
+    protected $companyid;
+    protected $parentlevel;
+    protected $departmentsmenu;
+    protected $usertypeselect;
     /**
      * Constructor
      * @param string $uniqueid all tables have to have a unique id, this is used

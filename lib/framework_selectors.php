@@ -52,6 +52,7 @@ class current_company_frameworks_selector extends company_framework_selector_bas
      * @param <type> $search
      * @return array
      */
+    protected $shared;
     public function __construct($name, $options) {
         $this->companyid  = $options['companyid'];
 
@@ -133,6 +134,8 @@ class potential_company_frameworks_selector extends company_framework_selector_b
      * @param <type> $search
      * @return array
      */
+    protected $shared;
+    protected $partialshared;
     public function __construct($name, $options) {
         $this->companyid  = $options['companyid'];
 
