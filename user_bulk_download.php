@@ -216,7 +216,6 @@ function user_download_ods($userids, $fields, $includecompanyfield) {
                 $col++;
             }
         }
-        $worksheet[0]->write($row, $col, company_user::get_temporary_password($user));
 
         $row++;
     }
@@ -269,7 +268,6 @@ function user_download_xls($userids, $fields, $includecompanyfield) {
                 $col++;
             }
         }
-        $worksheet[0]->write($row, $col, company_user::get_temporary_password($user));
 
         $row++;
     }
@@ -322,7 +320,6 @@ function user_download_csv($userids, $fields, $includecompanyfield) {
                 }
             }
         }
-        $row[] = str_replace($delimiter, $encdelim, company_user::get_temporary_password($user));
         echo implode($delimiter, $row)."\n";
     }
     die;

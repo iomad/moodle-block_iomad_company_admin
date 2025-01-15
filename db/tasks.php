@@ -16,8 +16,8 @@
 
 /**
  * Task definition for block_iomad_company_admin.
- * @author    Howard Miller
- * @copyright Howard Miller 2018
+ * @author    Derick Turner
+ * @copyright E-Learn Design 2025
  * @package   block_iomad_company_admin
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,15 +25,5 @@
 defined('MOODLE_INTERNAL') || die();
 
 $tasks = array(
-    array(
-        'classname' => '\block_iomad_company_admin\task\emailpasswords',
-        'blocking' => 0,
-        'minute' => '*',
-        'hour' => '*',
-        'day' => '*',
-        'month' => '*',
-        'dayofweek' => '*',
-        'disabled' => 0
-    )
 );
 
