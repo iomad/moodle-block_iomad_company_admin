@@ -315,7 +315,7 @@ if (!empty($cancelled)) {
 
         $allowedauths   = uu_allowed_auths();
         $allowedauths   = array_keys($allowedauths);
-        $availableauths = get_plugin_list('auth');
+        $availableauths = \core_component::get_plugin_list('auth');
         $availableauths = array_keys($availableauths);
 
         // We use only manual enrol plugin here, if it is disabled no enrol is done.
@@ -1244,7 +1244,7 @@ echo $output->header();
 
 // Print the form.
 $cir->init();
-$availableauths = get_plugin_list('auth');
+$availableauths = \core_component::get_plugin_list('auth');
 $availableauths = array_keys($availableauths);
 $contents = array();
 while ($fields = $cir->next()) {
