@@ -1460,7 +1460,7 @@ echo html_writer::tag('div', html_writer::table($table), array('class' => 'flexi
 
 if ($haserror) {
     echo $output->container(get_string('useruploadtype', 'moodle', $choices[$uploadtype]), 'block_iomad_company_admin');
-    echo $output->container(get_string('uploadinvalidpreprocessedcount', 'moodle', $countcontent), 'block_iomad_company_admin');
+    echo $output->container(get_string('uploadinvalidpreprocessedcount', 'block_iomad_company_admin', $countcontent), 'block_iomad_company_admin');
     echo $output->container(get_string('invalidusername', 'moodle'), 'block_iomad_company_admin');
     echo $output->container(get_string('uploadfilecontainerror', 'block_iomad_company_admin'), 'block_iomad_company_admin');
 } else if (empty($contents)) {

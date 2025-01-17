@@ -730,6 +730,7 @@ $string['updatedepartmentusersselection'] = 'Choose Department';
 $string['updatelicense'] = 'Update license allocation';
 $string['uploadfilecontainerror'] = 'The file contents could not be processed.';
 $string['uploadfilecontentsnovaliddata'] = 'The uploaded file is either in an invalid format or there were no user changes to process.';
+$string['uploadinvalidpreprocessedcount'] = 'The uploaded file could not be parsed due to the presence of invalid characters.';
 $string['uploadfromfile'] = 'Upload from file';
 $string['upload_no_company_no_courses'] = 'Courses can only be selected when a company is selected.';
 $string['upload_no_company_selected'] = 'No company selected, profile_field_company must be present in the uploaded file.';
