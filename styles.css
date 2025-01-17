@@ -163,11 +163,13 @@ border-radius: 10px;
 
 .dep_tree .haschildren[aria-expanded="true"] {
     background-image: url('[[pix:t/expanded]]');
+    background-size: 16px 16px;
     background-repeat: no-repeat;
 
 }
 .dep_tree .haschildren[aria-expanded="false"] {
     background-image: url('[[pix:t/collapsed]]');
+    background-size: 16px 16px;
     background-repeat: no-repeat;
 }
 
