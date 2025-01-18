@@ -134,7 +134,7 @@ class company_license_table extends table_sql {
     public function col_expirydate($row) {
         global $CFG, $output;
 
-        return date($CFG->iomad_date_format, $row->expirydate);
+        return userdate($row->expirydate, $CFG->iomad_date_format);
     }
 
     /**

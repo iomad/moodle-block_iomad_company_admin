@@ -217,7 +217,7 @@ class editusers_table extends table_sql {
         global $CFG;
 
         if (!empty($row->lastaccess)) {
-            return date($CFG->iomad_date_format, $row->lastaccess);
+            return userdate($row->lastaccess, $CFG->iomad_date_format);
         } else {
             return get_string('never');
         }
