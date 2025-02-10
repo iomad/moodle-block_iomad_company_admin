@@ -783,5 +783,49 @@ $capabilities = array(
             'clientadministrator' => CAP_ALLOW
         ),
     ),
-);
 
+    'block/iomad_company_admin:configiomadoidc' => array(
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COMPANY,
+        'archetypes' => array(
+            'clientadministrator' => CAP_ALLOW
+        ),
+    ),
+
+    'block/iomad_company_admin:configiomadsaml2' => array(
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COMPANY,
+        'archetypes' => array(
+            'clientadministrator' => CAP_ALLOW
+        ),
+    ),
+
+    'block/iomad_company_admin:configiomadoidcsync' => array(
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COMPANY,
+        'archetypes' => array(
+            'clientadministrator' => CAP_ALLOW
+        ),
+    ),
+
+    'block/iomad_company_admin:configpolicies' => array(
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COMPANY,
+        'archetypes' => array(
+            'clientadministrator' => CAP_ALLOW
+        ),
+    ),
+
+    'block/iomad_company_admin:configmfa' => array(
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COMPANY,
+        'archetypes' => array(
+            'clientadministrator' => CAP_ALLOW
+        ),
+    ),
+);
