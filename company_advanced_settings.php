@@ -67,6 +67,7 @@ $candoiomadsaml2 = iomad::has_capability('block/iomad_company_admin:configiomads
 $candoiomadoidcsync = iomad::has_capability('block/iomad_company_admin:configiomadoidcsync', $companycontext) ? true : false;
 $candopolicies = iomad::has_capability('block/iomad_company_admin:configpolicies', $companycontext) ? true : false;
 $candomfa = iomad::has_capability('block/iomad_company_admin:configmfa', $companycontext) ? true : false;
+$candomfa = false;
 
 // Check if all of the modules are installed.
 $authmodules = \core_plugin_manager::instance()->get_plugins_of_type('auth');
