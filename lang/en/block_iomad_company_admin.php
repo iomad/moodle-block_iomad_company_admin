@@ -391,6 +391,7 @@ $string['iomad_company_admin:company_user'] = 'Company user form';
 $string['iomad_company_admin:company_user_profiles'] = 'Manage all user profiles for company';
 $string['iomad_company_admin:company_view_all'] = 'View all companies';
 $string['iomad_company_admin:company_view'] = 'View list of companies';
+$string['iomad_company_admin:companyadvancedsettings'] = 'Edit advance company options for authetication and admin tools';
 $string['iomad_company_admin:competencymanagement_view'] = 'View competency management tab in dashboard';
 $string['iomad_company_admin:competencyview'] = 'View competencies from dashboard';
 $string['iomad_company_admin:configiomadoidc'] = 'Configure IOMAD OIDC settings';

@@ -784,6 +784,15 @@ $capabilities = array(
         ),
     ),
 
+    'block/iomad_company_admin:companyadvancedsettings' => array(
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COMPANY,
+        'archetypes' => array(
+            'clientadministrator' => CAP_ALLOW
+        ),
+    ),
+
     'block/iomad_company_admin:configiomadoidc' => array(
 
         'captype' => 'write',

@@ -48,6 +48,17 @@ function block_iomad_company_admin_menu() {
                 'icon' => 'fa-building',
                 'iconsmall' => 'fa-edit'
             ),
+            'editadvanced' => array(
+                'category' => 'CompanyAdmin',
+                'tab' => 1,
+                'name' => get_string('companyadvanced', 'block_iomad_company_admin'),
+                'url' => 'company_advanced_settings.php',
+                'cap' => 'block/iomad_company_admin:companyadvancedsettings',
+                'icondefault' => 'editcompany',
+                'style' => 'company',
+                'icon' => 'fa-building',
+                'iconsmall' => 'fa-wrench'
+            ),
             'managecompanies' => array(
                 'category' => 'CompanyAdmin',
                 'tab' => 1,

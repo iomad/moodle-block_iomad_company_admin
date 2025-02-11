@@ -43,7 +43,7 @@ $companycontext = \core\context\company::instance($companyid);
 $company = new company($companyid);
 $postfix = "_$companyid";
 
-//iomad::require_capability('block/iomad_company_admin:company_advanced_settings', $companycontext);
+iomad::require_capability('block/iomad_company_admin:companyadvancedsettings', $companycontext);
 
 $linktext = get_string('companyadvanced', 'block_iomad_company_admin');
 
