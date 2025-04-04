@@ -161,6 +161,7 @@ class block_iomad_company_admin extends block_base {
         $systemcontext = context_system::instance();
         $companycontext = $systemcontext;
 
+        $companyid = iomad::get_my_companyid($systemcontext, false);
         if (!empty($companyid)) {
             $companycontext =  \core\context\company::instance($companyid);
         }
